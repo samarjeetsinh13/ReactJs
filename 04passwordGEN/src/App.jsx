@@ -66,11 +66,11 @@ function App() {
               <p className='text-white font-bold text-sm'>Length ({count})</p>
 
               <input type="checkbox" className='ml-2' defaultChecked={numberAllowed} onChange={()=>setNumberAllowed((prev)=>!prev)}/>
-              <label className='text-white font-bold text-sm ml-1 text-sm'>Numbers</label>
+              <label className='text-white font-bold ml-1 text-sm'>Numbers</label>
 
               <input type="checkbox" className='ml-2' defaultChecked={characterAllowed} onChange={()=>setCharacterAllowed((prev)=>!prev)}/>
               {/* if we do setCharacterAllowed(true) then we click i remain true*/}
-              <label className='text-white font-bold text-sm ml-1 text-sm'>characters</label>
+              <label className='text-white font-bold ml-1 text-sm'>characters</label>
             </div>
               
           </div>
