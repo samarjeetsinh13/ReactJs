@@ -28,7 +28,7 @@ function App() {
     <>
       <div className='relative bg-slate-900 w-screen h-screen flex justify-center items-center'
           style={{ backgroundImage: `url(${currencies})` , backgroundPosition: "center", backgroundSize:"cover", backgroundRepeat:"no-repeat"}}>
-        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="absolute inset-0 bg-black/70"></div>
         <div className='relative z-10  w-screen h-screen flex justify-center items-center' 
               >
 
@@ -41,7 +41,9 @@ function App() {
                 label={'From'}
                 onCurrencyChange={setFrom}
                 onAmountChange={setAmount}
+                // onAmountChange = {(currency)=> {setFrom(currency)}}
                 currencyOptions={currencyOptions}
+                amountDisable
               />
               <button onClick={swap} 
                       className='absolute bg-blue-700/90 hover:bg-blue-800 cursor-pointer w-18 h-10 rounded-xl text-md font-bold text-white text-center'>swap</button>
@@ -52,6 +54,7 @@ function App() {
                 onCurrencyChange={setTo}
                 onAmountChange={setConvertedAmount}
                 currencyOptions={currencyOptions}
+                amountDisable
               />
             </div>
 
