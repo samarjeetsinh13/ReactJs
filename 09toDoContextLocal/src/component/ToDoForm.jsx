@@ -13,7 +13,7 @@ function ToDoForm() {
         if(!todo) return 
 
         addToDo({ todo, completed:false })
-        setTodo(todo)
+        setTodo('')
     }
  
     return (
