@@ -16,7 +16,7 @@ export class Service{
 
     // Post related Services
 
-    async createPost({title, slug, content, featuredImage, status, userId}){
+    async createPost({title, slug, content, featuredimage, status, userId}){
         return await this.database.createDocument(
             conf.appwriteDatabaseId,
             conf.appwriteTableId,
@@ -24,14 +24,14 @@ export class Service{
             {
                 title,
                 content,
-                featuredImage,
+                featuredimage,
                 status,
                 userId
             }
         )
     }
 
-    async updatePost(slug, {title, content, featuredImage, status}){
+    async updatePost(slug, {title, content, featuredimage, status}){
         return await this.database.updateDocument(
             conf.appwriteDatabaseId,
             conf.appwriteTableId,
@@ -39,7 +39,7 @@ export class Service{
             {
                 title,
                 content,
-                featuredImage,
+                featuredimage,
                 status
             }
         )
@@ -93,7 +93,7 @@ export class Service{
 
     // Upload file return the unique ID of the file
 
-    // That we pass into create file as featuredImage
+    // That we pass into create file as featuredimage
 
     async deleteFile(fileId){
         return await this.bucket.deleteFile(

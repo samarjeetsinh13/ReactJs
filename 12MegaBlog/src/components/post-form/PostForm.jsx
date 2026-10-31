@@ -18,46 +18,107 @@ function PostForm({post}) {
     const navigate = useNavigate()
     const userData = ((state) => state.userData)
 
-    const submit =  async (data) => {
-        
-        if(post){
-            const file = data.image[0]? await appwriteService.uploadFile(data.image[0]) : undefined
+    // const submit =  async (data) => {
+    //     if(post){
+    //         const file = data.image[0]? await appwriteService.uploadFile(data.image[0]) : undefined
 
-            if(file){
-                appwriteService.deleteFile(post.featuredImage)
-            }
+    //         if(file){
+    //             appwriteService.deleteFile(post.featuredimage)
+    //         }
 
-            const dbPost = await appwriteService.updatePost(file.$id,{
-                ...data,
-                featuredImage: file ? file.$id : undefined
-            });
+    //         const dbPost = await appwriteService.updatePost(file.$id,{
+    //             ...data,
+    //             featuredimage: file ? file.$id : undefined
+    //         });
 
-            if(dbPost){
-                navigate(`/post/${dbPost.$id}`)
-            }
-        }else{
-            const file = data.image[0]? await appwriteService.uploadFile(data.image[0]) : undefined
+    //         if(dbPost){
+    //             navigate(`/post/${dbPost.$id}`)
+    //         }
+    //     }else{
+    //         const file = data.image[0]? await appwriteService.uploadFile(data.image[0]) : undefined
 
-            if(file){
-                const fileId = file.$id
-                data.featuredImage = fileId
+    //         if(file){
+    //             const fileId = file.$id
+    //             data.featuredimage = fileId
 
-                const dbPost = await appwriteService.createPost({...data, userId: userData.$id})
+    //             const dbPost = await appwriteService.createPost({...data, userId: userData.$id})
 
-                if(dbPost){
-                    navigate(`/post/${dbPost.$id}`)
-                }
+    //             if(dbPost){
+    //                 navigate(`/post/${dbPost.$id}`)
+    //             }
+    //         }
+    //     }
+    // }
+
+    
+const submit = async (data) => {
+    try {
+        let file = null;
+
+        if (data.image?.[0]) {
+            file = await appwriteService.uploadFile(data.image[0]);
+
+            if (!file) {
+                throw new Error("Image upload failed");
             }
         }
+
+        let dbPost;
+
+        if (post) {
+            // Update existing post using its actual document ID
+            dbPost = await appwriteService.updatePost(post.$id, {
+                title: data.title,
+                content: data.content,
+                status: data.status,
+                featuredimage: file ? file.$id : post.featuredimage
+            });
+
+            if (dbPost) {
+                // Delete old image only after successful update
+                if (file && post.featuredimage) {
+                    await appwriteService.deleteFile(post.featuredimage);
+                }
+
+                navigate(`/post/${dbPost.$id}`);
+            }
+        } else {
+            // Create a new post
+            if (!file) {
+                throw new Error("Please select a featured image");
+            }
+
+            dbPost = await appwriteService.createPost({
+                title: data.title,
+                slug: data.slug,
+                content: data.content,
+                status: data.status,
+                featuredimage: file.$id,
+                userid: userData.$id
+            });     
+
+            if (dbPost) {
+                navigate(`/post/${dbPost.$id}`);
+            } else {
+                await appwriteService.deleteFile(file.$id);
+            }
+        }
+    } catch (error) {
+        console.error("Failed to submit post:", error);
     }
+};
+
 
     const slugTransform = useCallback((value) => {
         if(value && typeof value === 'string')
             return value
             .trim()
             .toLowerCase()
-            .replace(/^[a-zA-Z\d\s]+/g, '-')
-            .replace(/\s/g, '-')
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '')
+            .slice(0, 36)
+            .replace(/-+$/g, '')
+        return ''
     }, [])
 
     useEffect(() => {
@@ -103,7 +164,7 @@ function PostForm({post}) {
                 {post && (
                     <div className="w-full mb-4">
                         <img
-                            src={appwriteService.getFilePreview(post.featuredImage)}
+                            src={appwriteService.getFilePreview(post.featuredimage)}
                             alt={post.title}
                             className="rounded-lg"
                         />
