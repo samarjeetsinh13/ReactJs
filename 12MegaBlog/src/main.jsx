@@ -16,71 +16,66 @@ import Post from "./pages/Post";
 import AllPosts from "./pages/AllPost.jsx";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    children: [
-        {
-            path: "/",
-            element: <Home />,
-        },
-        {
-            path: "/login",
-            element: (
-                <AuthLayout authentication={false}>
-                    <Login />
-                </AuthLayout>
-            ),
-        },
-        {
-            path: "/signup",
-            element: (
-                <AuthLayout authentication={false}>
-                    <Signup />
-                </AuthLayout>
-            ),
-        },
-        {
-            path: "/all-posts",
-            element: (
-                <AuthLayout authentication>
-                    {" "}
-                    <AllPosts />
-                </AuthLayout>
-            ),
-        },
-        {
-            path: "/add-post",
-            element: (
-                <AuthLayout authentication>
-                    {" "}
-                    <AddPost />
-                </AuthLayout>
-            ),
-        },
-        {
-            path: "/edit-post/:slug",
-            element: (
-                <AuthLayout authentication>
-                    {" "}
-                    <EditPost />
-                </AuthLayout>
-            ),
-        },
-        {
-            path: "/post/:slug",
-            element: <Post />,
-        },
-    ],
-},
+    {
+        path: "/",
+        element: <App />,
+        children: [
+            {
+                index: true,
+                element: <Home />,
+            },
+            {
+                path: "login",
+                element: (
+                    <AuthLayout authentication={false}>
+                        <Login />
+                    </AuthLayout>
+                ),
+            },
+            {
+                path: "signup",
+                element: (
+                    <AuthLayout authentication={false}>
+                        <Signup />
+                    </AuthLayout>
+                ),
+            },
+            {
+                path: "all-posts",
+                element: (
+                    <AuthLayout>
+                        <AllPosts />
+                    </AuthLayout>
+                ),
+            },
+            {
+                path: "add-post",
+                element: (
+                    <AuthLayout>
+                        <AddPost />
+                    </AuthLayout>
+                ),
+            },
+            {
+                path: "edit-post/:slug",
+                element: (
+                    <AuthLayout>
+                        <EditPost />
+                    </AuthLayout>
+                ),
+            },
+            {
+                path: "post/:slug",
+                element: <Post />,
+            },
+        ],
+    },
 ])
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </Provider>
   </StrictMode>,
 )

@@ -29,7 +29,7 @@ function App() {
       <div className='bg-gray-600 min-h-screen flex-wrap content-between '>
         <div className='w-full blcok'>
           <Header />
-          <main>{/* <Outlet /> */}</main>
+          <main><Outlet /></main>
           <Footer />
         </div>
       </div>

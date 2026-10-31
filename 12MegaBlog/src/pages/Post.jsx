@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
+import {  } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
 import appwriteService from "../appwrite/config"
 function Post() {
@@ -7,7 +7,7 @@ function Post() {
     const [post, setPost] = useState()
     const {slug} = useParams()
     const navigate = useNavigate()
-    const userData = useSelector((state)=> state.userData)
+    const userData = useSelector((state)=> state.auth.userData)
 
     const isAuthor = post && userData ? post.userId === userData.$id : false
 

@@ -25,12 +25,12 @@ export class AuthService{
         return await this.account.createEmailPasswordSession(email, password);
     }
 
-    async getCurrentUser(){
+    async getCurrentUser() {
         try {
-            return await this.account.get()
+            return await this.account.get();
         } catch (error) {
-            if (error?.code === 401) return null
-            throw error
+            console.log("Appwrite service :: getCurrentUser :: error", error);
+            return null;
         }
     }
 

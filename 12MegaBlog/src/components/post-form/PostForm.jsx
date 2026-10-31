@@ -2,7 +2,7 @@ import React, {useCallback, useEffect} from 'react'
 import {Input, Button, RTE, Select} from "../index"
 import appwriteService from '../../appwrite/config'
 import { useForm } from 'react-hook-form'
-import { useSelector } from 'react-redux'
+import {  } from 'react-redux'
 
 function PostForm({post}) {
 
@@ -16,7 +16,7 @@ function PostForm({post}) {
     })
 
     const navigate = useNavigate()
-    const userData = useSelector((state) => state.userData)
+    const userData = ((state) => state.userData)
 
     const submit =  async (data) => {
         if(post){
